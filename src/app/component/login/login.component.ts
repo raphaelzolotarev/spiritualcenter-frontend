@@ -1,4 +1,11 @@
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { BehaviorSubject, catchError, map, Observable, of, startWith } from 'rxjs';
+import { LoginState } from 'src/app/interface/appstates';
+import { UserService } from 'src/app/service/user.service';
+import { DataState } from 'src/app/enum/datastate.enum';
+import { Key } from 'src/app/enum/key.enum';
 
 @Component({
   selector: 'app-login',
@@ -6,5 +13,58 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  loginState$: Observable<LoginState> = of({ dataState: DataState.LOADED });
+  private phoneSubject = new BehaviorSubject<string | null>(null);
+  private usernameSubject = new BehaviorSubject<string | null>(null);
+  readonly DataState = DataState;
+
+  constructor(private router: Router, private userService: UserService) { }
+
+  login(loginForm: NgForm): void {
+    this.loginState$ = this.userService.login$(loginForm.value.username, loginForm.value.password)
+      .pipe(
+        map(response => {
+          if (response.data.user.usingMfa) {
+            this.phoneSubject.next(response.data.user.phone);
+            this.usernameSubject.next(response.data.user.username);
+            return {
+              dataState: DataState.LOADED, isUsingMfa: true, loginSuccess: false,
+              phone: response.data.user.phone.substring(response.data.user.phone.length - 4)
+            };
+          } else {
+            localStorage.setItem(Key.TOKEN, response.data.access_token);
+            localStorage.setItem(Key.REFRESH_TOKEN, response.data.refresh_token);
+            this.router.navigate(['/']);
+            return { dataState: DataState.LOADED, loginSuccess: true };
+          }
+        }),
+        startWith({ dataState: DataState.LOADING, isUsingMfa: false }),
+        catchError((error: string) => {
+          return of({ dataState: DataState.ERROR, isUsingMfa: false, loginSuccess: false, error })
+        })
+      )
+  }
+
+  verifyCode(verifyCodeForm: NgForm): void {
+    this.loginState$ = this.userService.verifyCode$(this.usernameSubject.value, verifyCodeForm.value.code)
+      .pipe(
+        map(response => {
+          localStorage.setItem(Key.TOKEN, response.data.access_token);
+          localStorage.setItem(Key.REFRESH_TOKEN, response.data.refresh_token);
+          this.router.navigate(['/']);
+          return { dataState: DataState.LOADED, loginSuccess: true };
+        }),
+        startWith({ dataState: DataState.LOADING, isUsingMfa: true, loginSuccess: false,
+          phone: this.phoneSubject.value.substring(this.phoneSubject.value.length - 4) }),
+        catchError((error: string) => {
+          return of({ dataState: DataState.ERROR, isUsingMfa: true, loginSuccess: false, error,
+            phone: this.phoneSubject.value.substring(this.phoneSubject.value.length - 4) })
+        })
+      )
+  }
+
+  loginPage(): void {
+    this.loginState$ = of({ dataState: DataState.LOADED });
+  }
 
 }
