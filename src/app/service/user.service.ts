@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { CustomHttpResponse, Profile } from '../interface/appstates';
+import { User } from '../interface/user';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,23 @@ export class UserService {
         catchError(this.handleError)
       );
 
+      profile$ = () => <Observable<CustomHttpResponse<Profile>>>
+      this.http.get<CustomHttpResponse<Profile>>
+        (`${this.server}/user/profile`, { headers: new HttpHeaders().set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJDVVNUT01FUl9NQU5BR0VNRU5UX1NFUlZJQ0UiLCJzdWIiOiIxIiwiaXNzIjoiR0VUX0FSUkFZU19MTEMiLCJleHAiOjE2NzkyNzc1ODgsImlhdCI6MTY3ODg0NTU4OCwiYXV0aG9yaXRpZXMiOlsiUkVBRDpVU0VSIiwiUkVBRDpDVVNUT01FUiJdfQ.eFB4zpZnMAtez3F6oFkcc4_3EdsggBO04IRq1DRlkNTTMAue77NoQDIuSFQurWCeXAxZIn1rS2-c4DzK26Xb9A') })
+        .pipe(
+          tap(console.log),
+          catchError(this.handleError)
+        );
+        
+
+  update$ = (user: User) => <Observable<CustomHttpResponse<Profile>>>
+  this.http.patch<CustomHttpResponse<Profile>>
+    (`${this.server}/user/update`, user, { headers: new HttpHeaders().set('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJhdWQiOiJDVVNUT01FUl9NQU5BR0VNRU5UX1NFUlZJQ0UiLCJzdWIiOiIxIiwiaXNzIjoiR0VUX0FSUkFZU19MTEMiLCJleHAiOjE2NzkyNzc1ODgsImlhdCI6MTY3ODg0NTU4OCwiYXV0aG9yaXRpZXMiOlsiUkVBRDpVU0VSIiwiUkVBRDpDVVNUT01FUiJdfQ.eFB4zpZnMAtez3F6oFkcc4_3EdsggBO04IRq1DRlkNTTMAue77NoQDIuSFQurWCeXAxZIn1rS2-c4DzK26Xb9A') })
+    .pipe(
+      tap(console.log),
+      catchError(this.handleError)
+    );
+    
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.log(error);
     let errorMessage: string;
