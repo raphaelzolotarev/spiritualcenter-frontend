@@ -42,7 +42,6 @@ export class ProfileComponent implements OnInit {
     this.profileState$ = this.userService.update$(profileForm.value)
       .pipe(
         map(response => {
-          console.log(response);
           this.dataSubject.next({ ...response, data: response.data });
           this.isLoadingSubject.next(false);
           return { dataState: DataState.LOADED, appData: this.dataSubject.value };
