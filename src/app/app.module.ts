@@ -9,6 +9,11 @@ import { RegisterComponent } from './component/register/register.component';
 import { VerifyComponent } from './component/verify/verify.component';
 import { ResetpasswordComponent } from './component/resetpassword/resetpassword.component';
 import { FormsModule } from '@angular/forms';
+import { ProfileComponent } from './component/profile/profile.component';
+import { UsersComponent } from './component/users/users.component';
+import { HomeComponent } from './component/home/home.component';
+import { NavbarComponent } from './component/navbar/navbar.component';
+import { StatsComponent } from './component/stats/stats.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +21,12 @@ import { FormsModule } from '@angular/forms';
     LoginComponent,
     RegisterComponent,
     VerifyComponent,
-    ResetpasswordComponent
+    ResetpasswordComponent,
+    ProfileComponent,
+    UsersComponent,
+    HomeComponent,
+    NavbarComponent,
+    StatsComponent
   ],
   imports: [
     BrowserModule,

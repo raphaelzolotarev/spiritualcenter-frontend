@@ -3,9 +3,9 @@ export interface User {
     username: string;
     email: string;
     phone?: string;
-    imageUrl?: string;
+    picture?: string;
     enabled: boolean;
-    isNotLocked: boolean;
+    notLocked: boolean;
     usingMfa: boolean;
     role: string;
 }

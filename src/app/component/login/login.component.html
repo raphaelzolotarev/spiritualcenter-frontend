@@ -16,8 +16,8 @@
             </div>
             <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
               <div class="form-outline mb-4">
-                <label class="form-label" for="email">Email Address</label>
-                <input [disabled]="state.dataState === DataState.LOADING" ngModel type="email" name="email" class="form-control" required>
+                <label class="form-label" for="username">Username</label>
+                <input [disabled]="state.dataState === DataState.LOADING" ngModel type="username" name="username" class="form-control" required>
               </div>
               <div class="form-outline mb-4">
                 <label for="password" class="form-label">Password</label>
