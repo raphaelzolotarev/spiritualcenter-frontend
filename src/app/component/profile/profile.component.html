@@ -3,7 +3,7 @@
       <app-navbar></app-navbar>
       <!-- <div>{{ state | json }} </div> -->
       <section>
-         <div class="container">
+         <div class="container " style="margin-bottom: 24px;">
             <nav aria-label="breadcrumb" style="margin-top: 8px;">
                <ol class="breadcrumb">
                   <li class="breadcrumb-item">
@@ -18,9 +18,8 @@
                   <div class="p-4">
                      <div class="img-circle text-center mb-3" >
                         <span style="position: relative">
-                           <!-- <img [src]="state?.appData?.data?.user?.imageUrl" alt="John" class="shadow" /> -->
                            <img src="{{ state?.appData?.data?.user?.picture }}" alt="John" class="shadow" />
-                        <i class="bi bi-camera-fill right-position"></i>
+                           <i (click)="fileInput.click()" class="bi bi-camera-fill right-position"></i>
                         </span>
                      </div>
                      <h4 class="text-center">{{ state?.appData?.data?.user?.username }} </h4>
@@ -52,24 +51,24 @@
                            <div class="col-md-6">
                               <div class="form-group">
                                    <label>Username</label>
-                                   <input type="text" name="username" [ngModel]="state?.appData?.data?.user?.username" [disabled]="state?.appData?.data?.user?.role === 'USER' || (isLoading$ | async) || (isLoading$ | async)" class="form-control">
+                                   <input type="text" name="username" [ngModel]="state?.appData?.data?.user?.username" [disabled]="(isLoading$ | async)" class="form-control">
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="form-group">
                                    <label for="email">Email</label>
-                                   <input type="text" name="email" [ngModel]="state?.appData?.data?.user?.email" [disabled]="state?.appData?.data?.user?.role === 'USER' || (isLoading$ | async)" class="form-control">
+                                   <input type="text" name="email" [ngModel]="state?.appData?.data?.user?.email" [disabled]="(isLoading$ | async)" class="form-control">
                               </div>
                            </div>
                            <div class="col-md-6">
                               <div class="form-group">
                                    <label>Phone</label>
-                                   <input type="text" name="phone" [ngModel]="state?.appData?.data?.user?.phone" [disabled]="state?.appData?.data?.user?.role === 'USER' || (isLoading$ | async)" class="form-control">
+                                   <input type="text" name="phone" [ngModel]="state?.appData?.data?.user?.phone" [disabled]="(isLoading$ | async)" class="form-control">
                               </div>
                            </div>
                         </div>
                         <div>
-                           <button [disabled]="state?.appData?.data?.user?.role === 'USER' || (isLoading$ | async)" type="submit" class="btn btn-primary">
+                           <button [disabled]="(isLoading$ | async)" type="submit" class="btn btn-primary">
                               <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
                               <span *ngIf="isLoading$ | async">Loading...</span>
                               <span *ngIf="!(isLoading$ | async)">Update</span>
@@ -117,37 +116,36 @@
                      <div class="row">
                         <div class="col-md-6">
                            <div class="form-group">
-                              <label style="margin-bottom: 5px;">Role Name</label>
-                              <select name="roleName" class="form-control select-cl" required>
+                              <label style="margin-bottom: 5px;">Role</label>
+                              <select name="role" class="form-control select-cl" required>
                                  <option class="select-cl">{{ state?.appData?.data?.user?.role }}</option>
                              </select>
                            </div>
                         </div>
                      </div>
-                     <div>
-                        <button type="submit" class="btn btn-primary">
-                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
-                           <span>Loading...</span>
-                           <span>Update</span>
-                        </button>
-                     </div>
                   </form>
                   </div>
                   <div class="tab-pane fade" id="application-tab" role="tabpanel" aria-labelledby="application" style="min-height: 510px;">
-                     <h3 class="mb-4">Application Settings</h3>
-                     <form>
+                     <h3 class="mb-4">Account Settings</h3>
+                     <form #settingsForm="ngForm" (ngSubmit)="updateAccountSettings(settingsForm)">
                         <input type="hidden" name="userId">
                      <div class="row">
                         <div class="col-md-6">
                            <div class="form-group">
                               <div class="form-check">
-                                 <input type="checkbox" name="enabled" class="form-check-input">
+                                 <input [disabled]="state?.appData?.data?.user?.role === 'USER' || (isLoading$ | async)"
+                                      [checked]="state?.appData?.data?.user?.enabled"
+                                      [ngModel]="state?.appData?.data?.user?.enabled"
+                                      type="checkbox" name="enabled" class="form-check-input">
                                  <label class="form-check-label" for="enabled">
                                  Account Active
                                  </label>
                               </div>
                               <div class="form-check">
-                                 <input type="checkbox" name="notLocked" class="form-check-input">
+                                 <input [disabled]="state?.appData?.data?.user?.role === 'USER' || (isLoading$ | async)"
+                                      [checked]="state?.appData?.data?.user?.notLocked"
+                                      [ngModel]="state?.appData?.data?.user?.notLocked"
+                                      type="checkbox" name="notLocked" class="form-check-input">
                                  <label class="form-check-label" for="notLocked">
                                  Account Unlocked
                                  </label>
@@ -156,11 +154,11 @@
                         </div>
                      </div>
                      <div>
-                        <button type="submit" class="btn btn-primary">
-                           <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
-                           <span>Loading...</span>
-                           <span>Update</span>
-                        </button>
+                       <button [disabled]="!(state?.appData?.data?.user?.role === 'ADMIN' || state?.appData?.data?.user?.role === 'ADMIN') || (isLoading$ | async)" type="submit" class="btn btn-primary">
+                          <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
+                          <span *ngIf="isLoading$ | async">Loading...</span>
+                          <span *ngIf="!(isLoading$ | async)">Update</span>
+                       </button>
                      </div>
                   </form>
                   </div>
@@ -172,18 +170,19 @@
                             <div class="row align-items-center">
                                 <div class="col">
                                     <strong class="mb-2">Multi-Factor Authentication</strong>
-                                    <span class="badge bg-success mx-3">Enabled</span>
-                                    <span class="badge bg-warning mx-3">Disabled</span>
+                                    <span *ngIf="state?.appData?.data?.user?.usingMfa" class="badge bg-success mx-3">Enabled</span>
+                                    <span *ngIf="!state?.appData?.data?.user?.usingMfa" class="badge bg-warning mx-3">Disabled</span>
                                     <p class="text-muted mb-0">Set up Multi-factor Authentication (MFA) help keep your account more secure</p>
                                 </div>
                                 <div class="col-auto">
-                                    <button class="btn btn-primary btn-sm">Disable
-                                      <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
+                                    <button (click)="toggleMfa()" [disabled]="(isLoading$ | async)" class="btn btn-primary btn-sm">
+                                      {{ state?.appData?.data?.user?.usingMfa ? 'Disable' : 'Enable' }}
+                                      <span *ngIf=" (isLoading$ | async)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                         <div class="list-group-item">
+                         <!--<div class="list-group-item">
                              <div class="row align-items-center">
                                  <div class="col">
                                      <strong class="mb-2">Activity Logs</strong>
@@ -196,11 +195,12 @@
                                      </div>
                                  </div>
                              </div>
-                         </div>
+                         </div>-->
                      </div>
                   </div>
                </div>
             </div>
+         <!--
             <div class="row">
                <div class="col-xl-12 mt-4">
                   <div class="card" style="border-radius: 8px;">
@@ -238,14 +238,14 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div>-->
          </div>
       </section>
    </ng-container>
 </ng-container>
 
-<!-- profile image change form -->
-<form enctype="multipart/form-data" style="display:none;">
-   <input type="file" name="image" id="image"
+ <!-- profile image change form -->
+ <form enctype="multipart/form-data" style="display:none;">
+   <input type="file" #fileInput (change)="updatePicture($event.target.files[0])" name="image" id="image"
       placeholder="file" ngModel accept="image/*" />
 </form>
