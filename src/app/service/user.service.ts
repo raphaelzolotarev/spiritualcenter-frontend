@@ -31,6 +31,14 @@ export class UserService {
             catchError(this.handleError)
           );
 
+          requestPasswordReset$ = (email: string) => <Observable<CustomHttpResponse<Profile>>>
+            this.http.get<CustomHttpResponse<Profile>>
+              (`${this.server}/user/resetpassword/${email}`)
+              .pipe(
+                tap(console.log),
+                catchError(this.handleError)
+              );
+
   verifyCode$ = (username: string, code: string) => <Observable<CustomHttpResponse<Profile>>>
     this.http.get<CustomHttpResponse<Profile>>
       (`${this.server}/user/verify/code/${username}/${code}`)
