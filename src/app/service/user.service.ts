@@ -23,6 +23,14 @@ export class UserService {
         catchError(this.handleError)
       );
 
+      save$ = (user: User) => <Observable<CustomHttpResponse<Profile>>>
+        this.http.post<CustomHttpResponse<Profile>>
+          (`${this.server}/user/register`, user)
+          .pipe(
+            tap(console.log),
+            catchError(this.handleError)
+          );
+
   verifyCode$ = (username: string, code: string) => <Observable<CustomHttpResponse<Profile>>>
     this.http.get<CustomHttpResponse<Profile>>
       (`${this.server}/user/verify/code/${username}/${code}`)

@@ -38,3 +38,10 @@ export interface Page {
     size: number;
     number: number;
 }
+
+export interface RegisterState {
+    dataState: DataState;
+    registerSuccess?: boolean;
+    error?: string;
+    message?: string;
+}
