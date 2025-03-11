@@ -29,3 +29,12 @@ export interface Profile {
     access_token?: string;
     refresh_token?: string;
 }
+
+export interface Page {
+    content: User[];
+    totalPages: number;
+    totalElements: number;
+    numberOfElements: number;
+    size: number;
+    number: number;
+}

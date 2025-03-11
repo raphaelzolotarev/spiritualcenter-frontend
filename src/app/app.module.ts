@@ -15,9 +15,11 @@ import { HomeComponent } from './component/home/home.component';
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { StatsComponent } from './component/stats/stats.component';
 import { TokenInterceptor } from './interceptor/token.interceptor';
+import { ExtractArrayValue } from './pipes/extractvalue.pipe';
 
 @NgModule({
   declarations: [
+    ExtractArrayValue,
     AppComponent,
     LoginComponent,
     RegisterComponent,
