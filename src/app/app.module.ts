@@ -16,6 +16,7 @@ import { NavbarComponent } from './component/navbar/navbar.component';
 import { StatsComponent } from './component/stats/stats.component';
 import { TokenInterceptor } from './interceptor/token.interceptor';
 import { ExtractArrayValue } from './pipes/extractvalue.pipe';
+import { CacheInterceptor } from './interceptor/cache.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,9 @@ import { ExtractArrayValue } from './pipes/extractvalue.pipe';
     HttpClientModule,
     FormsModule
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
+  providers: [ { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+               { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
+              ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
