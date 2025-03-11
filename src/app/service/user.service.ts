@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { CustomHttpResponse, Page, Profile } from '../interface/appstates';
+import { AccountType, CustomHttpResponse, Page, Profile } from '../interface/appstates';
 import { User } from '../interface/user';
 import { Key } from '../enum/key.enum';
 
@@ -47,6 +47,22 @@ export class UserService {
         catchError(this.handleError)
       );
 
+
+      verify$ = (key: string, type: AccountType) => <Observable<CustomHttpResponse<Profile>>>
+      this.http.get<CustomHttpResponse<Profile>>
+        (`${this.server}/user/verify/${type}/${key}`)
+        .pipe(
+          tap(console.log),
+          catchError(this.handleError)
+        );
+
+        renewPassword$ = (form: { userId: number, password: string, confirmPassword: string }) => <Observable<CustomHttpResponse<Profile>>>
+          this.http.put<CustomHttpResponse<Profile>>
+            (`${this.server}/user/new/password`, form)
+            .pipe(
+              tap(console.log),
+              catchError(this.handleError)
+            );
 
       profile$ = () => <Observable<CustomHttpResponse<Profile>>>
       this.http.get<CustomHttpResponse<Profile>>
