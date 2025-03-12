@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of, BehaviorSubject, map, startWith, catchError } from 'rxjs';
@@ -11,7 +11,8 @@ import { UserService } from 'src/app/service/user.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css']
+  styleUrls: ['./user.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserComponent implements OnInit {
   profileState$: Observable<State<CustomHttpResponse<Profile>>>;
