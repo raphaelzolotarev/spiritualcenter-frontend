@@ -132,13 +132,7 @@ export class UserService {
         
           isAuthenticated = (): boolean => (this.jwtHelper.decodeToken<string>(localStorage.getItem(Key.TOKEN)) && !this.jwtHelper.isTokenExpired(localStorage.getItem(Key.TOKEN))) ? true : false;
           
-         users$ = (page: number = 0) => <Observable<CustomHttpResponse<Page & User>>>
-         this.http.get<CustomHttpResponse<Page & User>>
-             (`${this.server}/user/list?page=${page}`)
-             .pipe(
-                 tap(console.log),
-                 catchError(this.handleError)
-             );
+
 
              nbrOfUsers$ = () => <Observable<CustomHttpResponse<number>>>
               this.http.get<CustomHttpResponse<number>>

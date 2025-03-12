@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit{
   private usernameSubject = new BehaviorSubject<string | null>(null);
   readonly DataState = DataState;
 
-  constructor(private router: Router, private userService: UserService, private noficationService: NotificationService) { }
+  constructor(private router: Router, private userService: UserService, private notificationService: NotificationService) { }
   
   ngOnInit(): void {
     this.userService.isAuthenticated() ? this.router.navigate(['/']) : this.router.navigate(['/login']);
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit{
       .pipe(
         map(response => {
           if (response.data.user.usingMfa) {
-            this.noficationService.onDefault(response.message);
+            this.notificationService.onDefault(response.message);
             this.phoneSubject.next(response.data.user.phone);
             this.usernameSubject.next(response.data.user.username);
             return {
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit{
               phone: response.data.user.phone.substring(response.data.user.phone.length - 4)
             };
           } else {
-            this.noficationService.onDefault(response.message);
+            this.notificationService.onDefault(response.message);
             localStorage.setItem(Key.TOKEN, response.data.access_token);
             localStorage.setItem(Key.REFRESH_TOKEN, response.data.refresh_token);
             this.router.navigate(['/']);
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit{
         }),
         startWith({ dataState: DataState.LOADING, isUsingMfa: false }),
         catchError((error: string) => {
-          this.noficationService.onError(error);
+          this.notificationService.onError(error);
           return of({ dataState: DataState.ERROR, isUsingMfa: false, loginSuccess: false, error })
         })
       )
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit{
     this.loginState$ = this.userService.verifyCode$(this.usernameSubject.value, verifyCodeForm.value.code)
       .pipe(
         map(response => {
-          this.noficationService.onDefault(response.message);
+          this.notificationService.onDefault(response.message);
           localStorage.setItem(Key.TOKEN, response.data.access_token);
           localStorage.setItem(Key.REFRESH_TOKEN, response.data.refresh_token);
           this.router.navigate(['/']);
@@ -67,7 +67,7 @@ export class LoginComponent implements OnInit{
         startWith({ dataState: DataState.LOADING, isUsingMfa: true, loginSuccess: false,
           phone: this.phoneSubject.value.substring(this.phoneSubject.value.length - 4) }),
         catchError((error: string) => {
-          this.noficationService.onError(error);
+          this.notificationService.onError(error);
           return of({ dataState: DataState.ERROR, isUsingMfa: true, loginSuccess: false, error,
             phone: this.phoneSubject.value.substring(this.phoneSubject.value.length - 4) })
         })

@@ -4,8 +4,8 @@ import { NotifierModule, NotifierOptions } from 'angular-notifier';
 const notificationConfig: NotifierOptions = {
     position: {
         horizontal: {
-            position: 'left',
-            distance: 150
+            position: 'right',
+            distance: 50
         },
         vertical: {
             position: 'bottom',

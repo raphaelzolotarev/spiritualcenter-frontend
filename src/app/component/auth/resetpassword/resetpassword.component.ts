@@ -16,20 +16,20 @@ export class ResetpasswordComponent {
   resetPasswordState$: Observable<RegisterState> = of({ dataState: DataState.LOADED });
   readonly DataState = DataState;
 
-  constructor(private userService: UserService, private noficationService: NotificationService) { }
+  constructor(private userService: UserService, private notificationService: NotificationService) { }
 
   resetPassword(resetPasswordForm: NgForm): void {
     this.resetPasswordState$ = this.userService.requestPasswordReset$(resetPasswordForm.value.email)
       .pipe(
         map(response => {
-          this.noficationService.onDefault(response.message);
+          this.notificationService.onDefault(response.message);
           console.log(response);
           resetPasswordForm.reset();
           return { dataState: DataState.LOADED, registerSuccess: true, message: response.message };
         }),
         startWith({ dataState: DataState.LOADING, registerSuccess: false }),
         catchError((error: string) => {
-          this.noficationService.onError(error);
+          this.notificationService.onError(error);
           return of({ dataState: DataState.ERROR, registerSuccess: false, error })
         })
       );

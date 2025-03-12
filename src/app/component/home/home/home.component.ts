@@ -25,48 +25,47 @@ export class HomeComponent  implements OnInit {
   private showLogsSubject = new BehaviorSubject<boolean>(false);
   showLogs$ = this.showLogsSubject.asObservable();
   readonly DataState = DataState;
+  private keySearch : string = "";
 
-  constructor(private userService: UserService, private noficationService: NotificationService) { }
+  constructor(private userService: UserService, private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     this.homeState$ = this.userService.searchUsers$()
       .pipe(
         map(response => {
-          this.noficationService.onDefault(response.message);
           console.log(response);
           this.dataSubject.next(response);
           return { dataState: DataState.LOADED, appData: response };
         }),
         startWith({ dataState: DataState.LOADING }),
         catchError((error: string) => {
-          this.noficationService.onError(error);
+          this.notificationService.onError(error);
           return of({ dataState: DataState.ERROR, error })
         })
       )
   }
   searchUsers(searchForm: NgForm): void {
     this.currentPageSubject.next(0);
-    this.homeState$ = this.userService.searchUsers$(searchForm.value.name)
+    this.keySearch = searchForm.value.name;
+    this.homeState$ = this.userService.searchUsers$(this.keySearch)
       .pipe(
         map(response => {
-          this.noficationService.onDefault(response.message);
           console.log(response);
           this.dataSubject.next(response);
           return { dataState: DataState.LOADED, appData: response };
         }),
         startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
         catchError((error: string) => {
-          this.noficationService.onError(error);
+          this.notificationService.onError(error);
           return of({ dataState: DataState.ERROR, error })
         })
       )
   }
   
   goToPage(pageNumber?: number): void {
-    this.homeState$ = this.userService.users$(pageNumber)
+    this.homeState$ = this.userService.searchUsers$(this.keySearch, pageNumber)
       .pipe(
         map(response => {
-          this.noficationService.onDefault(response.message);
           console.log(response);
           this.dataSubject.next(response);
           this.currentPageSubject.next(pageNumber);
@@ -74,7 +73,7 @@ export class HomeComponent  implements OnInit {
         }),
         startWith({ dataState: DataState.LOADED, appData: this.dataSubject.value }),
         catchError((error: string) => {
-          this.noficationService.onError(error);
+          this.notificationService.onError(error);
           return of({ dataState: DataState.LOADED, error, appData: this.dataSubject.value })
         })
       )
