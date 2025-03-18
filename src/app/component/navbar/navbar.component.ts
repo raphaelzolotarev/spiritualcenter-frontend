@@ -11,6 +11,10 @@ import { UserService } from 'src/app/service/user.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
+
+  currentYear: number = new Date().getFullYear();
+  searchKeyword: string = '';
+
   @Input() user: User;
 
   constructor(private router: Router, private userService: UserService, private notificationService: NotificationService) {}
@@ -21,4 +25,11 @@ export class NavbarComponent {
     this.notificationService.onDefault('Bye Bye');
   }
 
+  searchPosts(): void {
+    if (this.searchKeyword && this.searchKeyword.trim() !== '') {
+      this.router.navigate(['/blog/posts'], { 
+        queryParams: { keyword: this.searchKeyword.trim() } 
+      });
+    }
+  }
 }

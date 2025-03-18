@@ -1,21 +1,18 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Observable, of, BehaviorSubject, map, startWith, catchError } from 'rxjs';
 import { DataState } from 'src/app/enum/datastate.enum';
-import { Key } from 'src/app/enum/key.enum';
 import { CustomHttpResponse, Profile } from 'src/app/interface/appstates';
 import { State } from 'src/app/interface/state';
 import { NotificationService } from 'src/app/service/notification.service';
 import { UserService } from 'src/app/service/user.service';
-
 @Component({
-  selector: 'app-profile',
-  templateUrl: './user.component.html',
-  styleUrls: ['./user.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent implements OnInit {
+export class SettingsComponent implements OnInit {
   profileState$: Observable<State<CustomHttpResponse<Profile>>>;
   private dataSubject = new BehaviorSubject<CustomHttpResponse<Profile>>(null);
   private isLoadingSubject = new BehaviorSubject<boolean>(false);

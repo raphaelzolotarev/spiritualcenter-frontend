@@ -12,4 +12,4 @@ import { AuthRoutingModule } from './auth-routing.module';
   declarations: [ LoginComponent, RegisterComponent, ResetpasswordComponent, VerifyComponent ],
   imports: [ SharedModule, AuthRoutingModule ]
 })
-export class AuthModule {}
+export class AuthModule {} 

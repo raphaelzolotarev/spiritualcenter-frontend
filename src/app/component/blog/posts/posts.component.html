@@ -1,0 +1,147 @@
+<ng-container *ngIf="(profileState$ | async) as state" [ngSwitch]="state.dataState">
+    <ng-container *ngSwitchCase="DataState.LOADED">
+       <app-navbar [user]="state?.appData?.data?.user"></app-navbar>
+         <aside class="aside" id="sidenav-lg" style="display:none;">  <nav class="navbar navbar-expand-xl navbar-vertical"><div class="container-lg">      </div>       </nav></aside>
+     <!-- Main --> 
+    <main class="main px-lg-6">
+        <!-- Content -->
+        <div class="container-lg">
+          <!-- Page header -->
+          <div class="row align-items-center mb-7">
+            <div class="col-auto">
+              <!-- Avatar -->
+              <div class="avatar avatar-xl rounded text-primary">
+                <span class="material-symbols-outlined fs-1">text_fields</span>              </div>
+            </div>
+            <div class="col">
+              <!-- Breadcrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                  <li class="breadcrumb-item"><a class="text-body-secondary" >Blog</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Posts</li>
+                </ol>
+              </nav>
+  
+              <!-- Heading -->
+              <h1 class="fs-4 mb-0">Posts</h1>
+            </div>
+            <div class="col-12 col-sm-auto mt-4 mt-sm-0" *ngIf="state?.appData?.data?.user.role === 'ADMIN'">
+              <!-- Action -->
+              <a class="btn btn-secondary d-block" [routerLink]="['/blog/create']"> <span class="material-symbols-outlined me-1">add</span> New post </a>
+            </div>
+          </div>
+  
+          <!-- Page content -->
+          <div class="row">
+            <div class="col-12">             
+  
+              
+              
+              
+              <!-- Content -->
+              <div class="row gx-lg-10">
+                <div class="col-12 col-lg-8 col-xxl-9">
+                  <!-- List -->
+
+                  <div class="list-group list-group-flush border-top border-bottom mb-7">
+                    
+                    <div style="margin-top: 10px;"></div>
+                    <div *ngIf="loading">                     
+                      <h3 class="fs-6">Loading...</h3>
+                    </div>  
+                    <div *ngIf="error" class="error">       
+                      <h3 class="fs-6">{{ error }}</h3>                      
+                    </div>                    
+                    <div *ngIf="posts.length === 0 && !loading">       
+                      <h3 class="fs-6">No posts</h3>                      
+                    </div>
+
+
+
+                    
+                    <div *ngFor="let post of posts" class="list-group-item py-7 px-0">
+                      <div class="row">
+                        <div class="col">
+                          <a class="text-reset" href="#" [routerLink]="'/blog/post/' + post.id">
+                            <h3 class="fs-6">{{ post.title }}</h3>
+                            <p class="text-body-secondary">
+                              {{ post.content | truncatepost }}
+                            </p>
+                          </a>
+                          <div class="d-flex align-items-center">
+                            <div class="fs-sm text-body-secondary me-3">Published on  {{ post.date | date:'MMMM d, y' }}</div>
+                            <div class="dropdown">
+                              <a class="fs-lg text-reset" type="button" [routerLink]="'/blog/post/' + post.id" aria-expanded="false">
+                                <span class="material-symbols-outlined">more_horiz</span>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-auto">
+                          <div class="avatar avatar-xl rounded">
+                            <img class="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/0/06/Universum.jpg" alt="..." />
+                          </div>
+                        </div>
+                      </div>
+                    </div>                     
+                    
+                  </div>
+  
+                  <!-- Footer -->
+                  <div class="row align-items-center mb-8">
+                    <div class="col">
+                      <!-- Text -->
+                      <p class="text-body-secondary mb-0">1 – 10 ({{posts.length}} total)</p>
+                    </div>
+                    <div class="col-auto">
+                      <!-- Pagination -->
+                      <nav aria-label="Page navigation example">
+                        <ul class="pagination mb-0">
+                          <li class="page-item">
+                            <a class="page-link" aria-label="Previous">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link active" >1</a>
+                          </li>
+                          <li class="page-item">
+                            <a class="page-link"  aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 col-lg-4 col-xxl-3">
+                  <!-- Heading -->
+                  <h3 class="fs-5">Authors</h3>
+  
+                  <!-- List group -->
+                  <div class="list-group list-group-flush">
+                    <div class="list-group-item px-0">
+                      <div class="row gx-4 align-items-center">
+                        <div class="col-auto">
+                          <div class="avatar avatar-sm">
+                            <img class="avatar-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png" alt="..." />
+                          </div>
+                        </div>
+                        <div class="col">
+                          <div>Admin</div>
+                          <div class="fs-sm text-body-secondary text-truncate">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+</ng-container>
+</ng-container> 

@@ -9,4 +9,4 @@ import { ExtractArrayValue } from '../pipes/extractvalue.pipe';
     imports: [RouterModule, CommonModule, FormsModule],
     exports: [RouterModule, CommonModule, FormsModule, ExtractArrayValue]
 })
-export class SharedModule {}
+export class SharedModule {} 

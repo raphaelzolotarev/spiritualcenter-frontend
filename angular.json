@@ -14,7 +14,7 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {            
             "allowedCommonJsDependencies": [ "core-js" ],
-            "outputPath": "dist/spiritualcenterapp",
+            "outputPath": "dist/frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -26,11 +26,14 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/assets/css/libs.bundle.css",
+              "src/assets/css/theme.bundle.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "src/assets/js/mapbox-gl.js",
+              "src/assets/js/vendor.bundle.js",
+              "src/assets/js/theme.bundle.js"        
+
             ]
           },
           "configurations": {
@@ -38,7 +41,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.ts"
                 }
               ],
               "budgets": [
@@ -68,6 +71,9 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+              "proxyConfig": "proxy.conf.json"
+            },
           "configurations": {
             "production": {
               "browserTarget": "spiritualcenterapp:build:production"
@@ -97,11 +103,13 @@
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css"
+              "src/assets/css/libs.bundle.css",
+              "src/assets/css/theme.bundle.css"
             ],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "src/assets/js/mapbox-gl.js",
+              "src/assets/js/vendor.bundle.js",
+              "src/assets/js/theme.bundle.js"
             ]
           }
         }

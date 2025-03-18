@@ -1,0 +1,193 @@
+<ng-container *ngIf="(profileState$ | async) as state" [ngSwitch]="state.dataState">
+    <ng-container *ngSwitchCase="DataState.LOADED">
+       <app-navbar [user]="state?.appData?.data?.user"></app-navbar>
+         <aside class="aside" id="sidenav-lg" style="display:none;">  <nav class="navbar navbar-expand-xl navbar-vertical"><div class="container-lg">      </div>       </nav></aside>
+      <!-- Main -->
+    <main class="main px-lg-6">
+        <!-- Content -->
+        <div class="container-lg">
+          <!-- Page header -->
+          <div class="row align-items-center mb-7">
+            <div class="col-auto">
+              <!-- Avatar -->
+              <div class="avatar avatar-xl rounded text-primary">
+                <span class="material-symbols-outlined fs-1">person</span>
+              </div>
+            </div>
+            <div class="col">
+              <!-- Breadcrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                  <li class="breadcrumb-item"><a class="text-body-secondary" >Account</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Account Settings</li>
+                </ol>
+              </nav>
+  
+              <!-- Heading -->
+              <h1 class="fs-4 mb-0">Account</h1>
+            </div>
+          </div>
+  
+          <!-- Page content -->
+          <div class="row">
+            
+            <div class="col-12 col-lg-12" data-bs-spy="scroll" data-bs-target="#accountNav" data-bs-smooth-scroll="true" tabindex="0">
+              
+              
+
+
+              <!-- General -->
+                <section class="card bg-body-tertiary border-transparent card-line mb-5" id="general">
+                  <div class="card-body">
+                      <div class="row align-items-center mb-4">
+                        <div class="col">
+                          <h2 class="fs-5 mb-1">Image</h2>
+                          <p class="text-body-secondary mb-0">Update your profile photo (2 mb size max and only JPG & PNG format)</p>
+                          <span style="cursor: pointer;"  (click)="fileInput.click()"  class="material-symbols-outlined fs-1">
+                              photo_camera
+                              </span>
+                        </div>
+                      </div>  
+                  </div>
+                </section>
+                    <!-- profile image change form -->
+                    <form enctype="multipart/form-data" style="display:none;">
+                        <input type="file" #fileInput (change)="updatePicture($event.target.files[0])" name="image" id="image"
+                        placeholder="file" ngModel accept="image/*" />
+                    </form>
+              
+              <!-- General -->
+              <form #profileForm="ngForm" (ngSubmit)="updateProfile(profileForm)">
+              <input type="hidden" name="id" [ngModel]="state?.appData?.data?.user?.id">
+              <section class="card bg-body-tertiary border-transparent card-line mb-5" id="general">
+                <div class="card-body">
+                    <div class="row align-items-center mb-4">
+                      <div class="col">
+                        <h2 class="fs-5 mb-1">General</h2>
+                        <p class="text-body-secondary mb-0">Update your general account information</p>
+                      </div>
+                      <div class="col-auto">
+                        <!-- Action -->
+                          <button [disabled]="(isLoading$ | async)" type="submit" class="btn btn-sm btn-secondary">
+                              <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
+                              <span *ngIf="isLoading$ | async">Loading...</span>
+                              <span *ngIf="!(isLoading$ | async)">Update</span>
+                          </button>
+                      </div>
+                    </div>
+
+                  <div class="mb-4">
+                    <label class="form-label" for="fullName">Username</label>
+                    <input class="form-control bg-body" name="username" [ngModel]="state?.appData?.data?.user?.username" [disabled]="(isLoading$ | async)" type="text" />
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label" for="company">Phone</label>
+                    <input class="form-control bg-body" type="text" name="phone" [ngModel]="state?.appData?.data?.user?.phone" [disabled]="(isLoading$ | async)" />
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control bg-body" type="text" name="email" [ngModel]="state?.appData?.data?.user?.email" [disabled]="(isLoading$ | async)" />
+                  </div>
+                </div>
+              </section>
+              </form>
+  
+              <!-- Pass -->
+              <form #passwordForm="ngForm" (ngSubmit)="updatePassword(passwordForm)">
+              <section class="card bg-body-tertiary border-transparent card-line mb-5" >
+                <div class="card-body">
+                  <div class="row align-items-center mb-4">
+                    <div class="col">
+                      <h2 class="fs-5 mb-1">Password</h2>
+                      <p class="text-body-secondary mb-0"></p>
+                    </div>
+                    <div class="col-auto">
+                      <!-- Action -->
+                        <button [disabled]="(isLoading$ | async)" type="submit" class="btn btn-sm btn-secondary">
+                            <span *ngIf="isLoading$ | async" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
+                            <span *ngIf="isLoading$ | async">Loading...</span>
+                            <span *ngIf="!(isLoading$ | async)">Update</span>
+                        </button>
+                    </div>
+                  </div>
+                  <div class="card border-transparent">
+                    <div class="card-body">
+                      <div class="row gx-3">
+                        <div class="col-12 col-md">
+                          <div class="mb-4 mb-lg-0">
+                            <label class="form-label" for="v">Current Password</label>
+                            <input
+                              class="form-control"
+                              id="currentPassword"
+                              type="password" name="currentPassword" ngModel [disabled]="(isLoading$ | async)" required
+                            />
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                          <div class="mb-4 mb-lg-0">
+                            <label class="form-label" for="newPassword">New Password</label>
+                            <input class="form-control" id="newPassword" name="newPassword" ngModel [disabled]="(isLoading$ | async)" type="password"  required/>
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-auto">
+                          <div>
+                            <label class="form-label" for="confirmNewPassword">Retype New Password</label>
+                            <input class="form-control" id="confirmNewPassword" name="confirmNewPassword" ngModel [disabled]="(isLoading$ | async)" type="password"  required/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              </form>
+  
+              <!-- Security -->
+              <section class="card bg-body-tertiary border-transparent mb-0" id="notifications">
+                <div class="card-body"> 
+                    <div class="row align-items-center mb-4">
+                      <div class="col">
+                        <h2 class="fs-5 mb-1">Multi-Factor Authentication</h2>
+                        <p class="text-body-secondary">Set up Multi-factor Authentication (MFA) help keep your account more secure.<br>THIS OPTION WILL NOT WORK BECAUSE IT IS A PAID FUNCTIONALITY.</p>
+                      </div>
+                      <div class="col-auto">
+                        <!-- Action -->
+                          
+                          <button (click)="toggleMfa()" [disabled]="(isLoading$ | async)" class="btn btn-secondary btn-sm">
+                            {{ state?.appData?.data?.user?.usingMfa ? 'Disable' : 'Enable' }}
+                            <span *ngIf=" (isLoading$ | async)" class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="margin-right: 5px;"></span>
+                          </button>
+                      </div>
+                    </div>
+
+                  <div class="card border-transparent">
+                    <div class="card-body py-0">
+                      <ul class="list-group list-group-flush">
+                        
+                        <li class="list-group-item px-0">
+                          <div class="row align-items-center">
+                            <div class="col">
+                              <label class="form-check-label" for="smsNotifications">SMS</label>
+                            </div>
+                            <div class="col-auto">
+                              <div class="form-check">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" role="switch" id="smsNotifications" disabled [checked]="state?.appData?.data?.user?.usingMfa"/>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </main>
+  
+</ng-container>
+</ng-container>

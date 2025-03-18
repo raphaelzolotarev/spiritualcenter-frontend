@@ -12,9 +12,13 @@ import { HttpCacheService } from '../service/http.cache.service';
 @Injectable()
 export class CacheInterceptor implements HttpInterceptor {
 
-  constructor(private httpCache: HttpCacheService) { }
+  constructor(private httpCache: HttpCacheService) {
+    
+   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> | Observable<HttpResponse<unknown>> {
+
+
     if (request.url.includes('verify') || request.url.includes('login') || request.url.includes('register')
       || request.url.includes('refresh') || request.url.includes('resetpassword') 
       || request.url.includes('verify') || request.url.includes('new/password')) {

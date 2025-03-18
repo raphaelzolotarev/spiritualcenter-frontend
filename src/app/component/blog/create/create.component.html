@@ -1,0 +1,77 @@
+<ng-container *ngIf="(profileState$ | async) as state" [ngSwitch]="state.dataState">
+    <ng-container *ngSwitchCase="DataState.LOADED">
+       <app-navbar [user]="state?.appData?.data?.user"></app-navbar>
+         <aside class="aside" id="sidenav-lg" style="display:none;">  <nav class="navbar navbar-expand-xl navbar-vertical"><div class="container-lg">      </div>       </nav></aside>
+     <!-- Main --> 
+    <main class="main px-lg-6">
+        <!-- Content -->
+          
+        <form (ngSubmit)="onSubmit()">
+        <div class="container-lg">
+          <!-- Page header -->
+          <div class="row align-items-center mb-7">
+            <div class="col-auto">
+              <!-- Avatar -->
+              <div class="avatar avatar-xl rounded text-primary">
+                <span class="material-symbols-outlined fs-1">text_fields</span>              </div>
+            </div>
+            <div class="col">
+              <!-- Breadcrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2">
+                  <li class="breadcrumb-item"><a class="text-body-secondary" >Posts</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">New post</li>
+                </ol>
+              </nav>
+  
+              <!-- Heading -->
+              <h1 class="fs-4 mb-0">New post</h1>
+            </div>
+            <div class="col-12 col-sm-auto mt-4 mt-sm-0">
+              <!-- Action -->
+              <div class="row gx-2">
+                <!--<div class="col-6 col-sm-auto">
+                  <button class="btn btn-light w-100">Edit</button>
+                </div>-->
+                <div class="col-6 col-sm-auto">
+                  <button class="btn btn-secondary w-100" type="submit" >Publish</button>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Divider -->
+          <hr class="my-8" />
+  
+  
+          <div class="row">
+            <div class="col-12 col-lg-12 order-lg-0">
+              <!-- Content -->
+                <div class="mb-4">
+                  <label class="visually-hidden" for="title">Title</label>
+                  <input
+                    class="form-control form-control-flush fs-5 fw-semibold"
+                    id="title"
+                    type="text"
+                    placeholder="Title" name="title" [(ngModel)]="title"
+                  />
+                </div>
+                
+                <div class="mb-4">
+                  <textarea name="content" [(ngModel)]="content"
+                    class="form-control form-control-flush fs-5 fw-semibold"
+                    id="content" rows="10"></textarea>
+                </div>
+                <div class="mb-7">
+                  <label class="visually-hidden" for="post">Content</label>
+                  <div class="form-control form-control-flush" id="post" data-placeholder="Enter your post content here..."></div>
+                </div>
+            </div>
+          </div>
+        </div>
+        </form>
+        
+      </main>
+  
+</ng-container>
+</ng-container> 

@@ -6,6 +6,7 @@ import { CoreModule } from './core/core.module';
 import { AuthModule } from './component/auth/auth.module';
 import { HomeModule } from './component/home/home.module';
 import { NotificationModule } from './notification.module';
+import { DocModule } from './component/doc/doc.module';
 
 @NgModule({
   declarations: [
@@ -17,8 +18,10 @@ import { NotificationModule } from './notification.module';
     AuthModule,
     HomeModule,    
     AppRoutingModule,
-    NotificationModule
+    NotificationModule,
+    DocModule
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+ 

@@ -4,7 +4,9 @@ import { HomeComponent } from './component/home/home/home.component';
 import { AuthenticationGuard } from './guard/authentication.guard';
 
 const routes: Routes = [
-  { path: 'profile', loadChildren: () => import('./component/profile/user.module').then(module => module.UserModule)},
+  { path: 'doc', loadChildren: () => import('./component/doc/doc.module').then(module => module.DocModule)},
+  { path: 'blog', loadChildren: () => import('./component/blog/blog.module').then(module => module.BlogModule)},
+  { path: 'users', loadChildren: () => import('./component/users/users.module').then(module => module.UsersModule)},
   { path: '', redirectTo: '/', pathMatch: 'full' },
   { path: '**', component: HomeComponent, canActivate: [AuthenticationGuard] },
 ]; 

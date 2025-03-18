@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { catchError, Observable, tap, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AccountType, CustomHttpResponse, Page, Profile } from '../interface/appstates';
@@ -13,6 +13,9 @@ export class UserService {
   private jwtHelper = new JwtHelperService();
 
   constructor(private http: HttpClient) { }
+
+
+  
 
   login$ = (username: string, password: string) => <Observable<CustomHttpResponse<Profile>>>
     this.http.post<CustomHttpResponse<Profile>>
@@ -132,7 +135,7 @@ export class UserService {
           }
         
           isAuthenticated = (): boolean => (this.jwtHelper.decodeToken<string>(localStorage.getItem(Key.TOKEN)) && !this.jwtHelper.isTokenExpired(localStorage.getItem(Key.TOKEN))) ? true : false;
-          
+           
 
 
              nbrOfUsers$ = () => <Observable<CustomHttpResponse<number>>>
@@ -141,13 +144,21 @@ export class UserService {
                   .pipe(
                       tap(console.log),
                       catchError(this.handleError)
-                  );
+                  ); 
 
-                  searchUsers$ = (name: string = '', page: number = 0) => <Observable<CustomHttpResponse<Page & User>>>
+                  searchUsers$ = (name: string = '', page: number = 0, type: string = "id", order: string = "asc") => <Observable<CustomHttpResponse<Page & User>>>
                   this.http.get<CustomHttpResponse<Page & User>>
-                      (`${this.server}/user/search?name=${name}&page=${page}`)
+                      (`${this.server}/user/search?name=${name}&page=${page}&type=${type}&order=${order}`)
                       .pipe(
                           tap(console.log),
+                          catchError(this.handleError)
+                      );
+
+                      
+                  seeUserDetails$ = (id: number) => <Observable<CustomHttpResponse<User & User>>>
+                  this.http.get<CustomHttpResponse<User & User>>
+                      (`${this.server}/user/finduser/${id}`)
+                      .pipe(
                           catchError(this.handleError)
                       );
 

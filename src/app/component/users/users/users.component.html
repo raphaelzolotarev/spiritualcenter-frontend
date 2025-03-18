@@ -1,0 +1,176 @@
+<ng-container *ngIf="(usersState$ | async) as state" [ngSwitch]="state.dataState">
+    <ng-container *ngSwitchCase="DataState.LOADED">
+       <app-navbar [user]="state?.appData?.data?.user"></app-navbar>
+         <aside class="aside" id="sidenav-lg" style="display:none;">  <nav class="navbar navbar-expand-xl navbar-vertical"><div class="container-lg">      </div>       </nav></aside>
+<!-- Main -->
+<main class="main px-lg-6">
+    <!-- Content --> 
+    <div class="container-lg">
+      <!-- Page header -->
+      <div class="row align-items-center mb-7">
+        <div class="col-auto">
+          <!-- Avatar -->
+          <div class="avatar avatar-xl rounded text-primary">
+            <span class="material-symbols-outlined fs-1">
+                person_search
+                </span>
+          </div>
+        </div>
+        <div class="col">
+          <!-- Breadcrumb -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-2">
+              <li class="breadcrumb-item"><a class="text-body-secondary" href="#" [routerLink]="['/users']">Community</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Search a user</li>
+            </ol>
+          </nav>
+
+          <!-- Heading -->
+          <h1 class="fs-4 mb-0">Community</h1>
+        </div>
+        <div *ngIf="nbrOfUsers$ | async as response" class="col-12 col-sm-auto mt-4 mt-sm-0">
+          <!-- Action -->
+          <a class="btn btn-secondary d-block"> <span class="material-symbols-outlined">group</span> Total of {{ response.data?.nbr || 0 }} users </a>
+        </div>
+      </div>
+
+      <!-- Page content -->
+      <div class="row">
+        <div class="col-12">
+          <!-- Filters -->
+          <div class="card card-line bg-body-tertiary border-transparent mb-7">
+            <div class="card-body p-4">
+              <div class="row align-items-center">
+                
+                <div class="col-12 col-lg">
+                  <div class="row gx-3">
+                    
+                    <form #searchForm="ngForm" (ngSubmit)="searchUsers(searchForm)" class="row float-end">
+                        <div class="col">
+                            <div class="input-group bg-body">
+                                <input type="text" ngModel name="name" #name class="form-control" placeholder="Search by name" aria-label="Search" aria-describedby="search" />
+                                <span class="input-group-text" id="search">
+                                <span class="material-symbols-outlined">search</span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-auto ms-n2">
+                            <div class="dropdown">
+                                <button type="submit" class="btn btn-dark px-3" >
+                                <span class="material-symbols-outlined">search</span>
+                                </button>                        
+                            </div>
+                        </div>
+
+                        <div class="col-auto ms-n2">
+                            <div class="dropdown">
+                              <button class="btn btn-dark px-3" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                <span class="material-symbols-outlined">filter_list</span>
+                              </button>
+                              <div class="dropdown-menu rounded-3 p-6">
+                                <h4 class="fs-lg mb-4">Sort</h4>
+                                <form style="width: 350px" id="filterForm">
+                                  <div class="row gx-3">
+                                    <div class="col">
+                                      <select  (change)="onSortTypeChange($event)" class="form-select" id="sort" data-choices='{"searchEnabled": false}'>
+                                        <option value="id">Date of registration</option>
+                                        <option value="username">Username</option>
+                                        <option value="role">Role</option>
+                                      </select>
+                                    </div>
+                                    <div class="col-auto">
+                                      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                                        <input (change)="onSortOrderChange($event)" type="radio" class="btn-check" name="sortRadio" id="sortAsc" autocomplete="off" checked />
+                                        <label class="btn btn-light" for="sortAsc" data-bs-toggle="tooltip" data-bs-title="Ascending">
+                                          <span class="material-symbols-outlined">arrow_upward</span>
+                                        </label>
+                                        <input (change)="onSortOrderChange($event)" type="radio" class="btn-check" name="sortRadio" id="sortDesc" autocomplete="off" />
+                                        <label class="btn btn-light" for="sortDesc" data-bs-toggle="tooltip" data-bs-title="Descending">
+                                          <span class="material-symbols-outlined">arrow_downward</span>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                    </form>
+
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="table-responsive mb-7">
+            <table class="table table-selectable align-middle mb-0">
+              <thead>
+                <th>User</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Profile</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of state?.appData?.data?.page.content">
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <div class="avatar">
+                        <img class="avatar-img" [src]="user.picture" alt="{{ user.username }}" />
+                      </div>
+                      <div class="ms-4">
+                        <div>{{ user.username }}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>{{ user.phone }}</td>
+                  <td>
+                    <a class="text-muted" >{{ user.email }}</a>
+                  </td>
+                  <td>{{ user.role }}</td>
+                  <td><a [routerLink]="[user.id]"><button type="button" class="btn btn-light">details</button></a></td>
+                </tr> 
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col">
+          <!-- Text -->
+          <p class="text-body-secondary mb-0">1 – 10 </p>
+        </div>
+        <div class="col-auto">
+
+
+
+          <!-- Pagination -->
+          <nav *ngIf="state?.appData?.data?.page.content.length > 0" aria-label="Page navigation example">
+            <ul class="pagination mb-0">
+              <li [ngClass]="0 == (currentPage$ | async) ? ' disabled' : ''"  class="page-item">
+                <a (click)="goToNextOrPreviousPage('backward')" class="page-link" style="cursor: pointer;"  aria-label="Previous">
+                  <span aria-hidden="true">&laquo;</span>
+                </a>
+              </li>
+              <li *ngFor="let pageNumber of state?.appData?.data?.page.totalPages | ExtractArrayValue: 'number'; let i = index;" class="page-item">
+                <a (click)="goToPage(i)" [ngClass]="i == (currentPage$ | async) ? ' active' : ''"  class="page-link " style="cursor: pointer;">{{ i + 1 }}</a>
+              </li>
+              <li [ngClass]="(state?.appData?.data?.page.totalPages - 1) == (currentPage$ | async) ? ' disabled' : ''" class="page-item">
+                <a (click)="goToNextOrPreviousPage('forward')"  class="page-link" style="cursor: pointer;" aria-label="Next">
+                  <span aria-hidden="true">&raquo;</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+</ng-container>
+</ng-container>
