@@ -103,7 +103,7 @@
             <div class="collapse " id="posts">
               <nav class="nav nav-pills">
                 <a class="nav-link " [routerLink]="['/blog/posts']">Posts</a>
-                <a class="nav-link " [routerLink]="['/blog/create']">New post</a>
+                <a class="nav-link "  *ngIf="user?.role === 'ADMIN'" [routerLink]="['/blog/create']">New post</a>
               </nav>
             </div>
           </div>    

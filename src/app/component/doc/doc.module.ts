@@ -9,5 +9,4 @@ import { TechComponent } from './tech/tech.component';
   declarations: [ ChangelogComponent, TechComponent ],
   imports: [ SharedModule, DocRoutingModule, NavBarModule ]
 })
-export class DocModule { }
- 
+export class DocModule { } 

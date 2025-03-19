@@ -14,9 +14,6 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-
-  
-
   login$ = (username: string, password: string) => <Observable<CustomHttpResponse<Profile>>>
     this.http.post<CustomHttpResponse<Profile>>
       (`${this.server}/user/login`, { username, password })
@@ -28,7 +25,7 @@ export class UserService {
       save$ = (user: User) => <Observable<CustomHttpResponse<Profile>>>
         this.http.post<CustomHttpResponse<Profile>>
           (`${this.server}/user/register`, user)
-          .pipe(
+          .pipe( 
             tap(console.log),
             catchError(this.handleError)
           );
@@ -136,8 +133,6 @@ export class UserService {
         
           isAuthenticated = (): boolean => (this.jwtHelper.decodeToken<string>(localStorage.getItem(Key.TOKEN)) && !this.jwtHelper.isTokenExpired(localStorage.getItem(Key.TOKEN))) ? true : false;
            
-
-
              nbrOfUsers$ = () => <Observable<CustomHttpResponse<number>>>
               this.http.get<CustomHttpResponse<number>>
                   (`${this.server}/user/numberusers`)
@@ -162,8 +157,13 @@ export class UserService {
                           catchError(this.handleError)
                       );
 
-                    
-
+                      deleteUser$ = (id: number) => <Observable<CustomHttpResponse<User>>>
+                      this.http.delete<CustomHttpResponse<User>>
+                          (`${this.server}/user/delete/${id}`)
+                          .pipe(
+                              catchError(this.handleError)
+                          );
+             
 
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.log(error);

@@ -22,7 +22,6 @@ export class NavbarComponent {
   logOut(): void {
     this.userService.logOut();
     this.router.navigate(['/login']);
-    this.notificationService.onDefault('Bye Bye');
   }
 
   searchPosts(): void {

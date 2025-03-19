@@ -11,8 +11,7 @@ import { UserService } from 'src/app/service/user.service';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./users.component.css']
 })
 export class UsersComponent  implements OnInit {
   usersState$: Observable<State<CustomHttpResponse<Page & User>>>;
@@ -87,7 +86,17 @@ export class UsersComponent  implements OnInit {
   goToNextOrPreviousPage(direction?: string): void {
     this.goToPage(direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1);
   }
-
+ 
+  deleteUser(id: number): void {
+    this.userService.deleteUser$(id).subscribe({
+      next: () => {
+        this.goToPage(this.currentPageSubject.value);
+      },
+      error: (error) => {
+        this.notificationService.onError(error);
+      }
+    });
+  }
 
   //SORTING SEARCH
   onSortTypeChange(event: any): void {

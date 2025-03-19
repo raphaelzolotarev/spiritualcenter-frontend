@@ -11,7 +11,7 @@ const authRoutes: Routes = [
     { path: 'resetpassword', component: ResetpasswordComponent },
     { path: 'user/verify/account/:key', component: VerifyComponent },
     { path: 'user/verify/password/:key', component: VerifyComponent }
-];
+]; 
 
 @NgModule({
     imports: [RouterModule.forChild(authRoutes)],

@@ -113,7 +113,8 @@
                 <th>Email</th>
                 <th>Role</th>
                 <th>Profile</th>
-              </thead>
+                <th *ngIf="state?.appData?.data?.user.role === 'ADMIN'">Action</th>
+              </thead> 
               <tbody>
                 <tr *ngFor="let user of state?.appData?.data?.page.content">
                   <td>
@@ -132,6 +133,7 @@
                   </td>
                   <td>{{ user.role }}</td>
                   <td><a [routerLink]="[user.id]"><button type="button" class="btn btn-light">details</button></a></td>
+                  <td *ngIf="state?.appData?.data?.user.role === 'ADMIN'" ><a (click)="deleteUser( user.id )" ><button type="button" class="btn btn-danger">delete</button></a></td>
                 </tr> 
               </tbody>
             </table>
@@ -144,8 +146,6 @@
           <p class="text-body-secondary mb-0">1 – 10 </p>
         </div>
         <div class="col-auto">
-
-
 
           <!-- Pagination -->
           <nav *ngIf="state?.appData?.data?.page.content.length > 0" aria-label="Page navigation example">
@@ -165,8 +165,6 @@
               </li>
             </ul>
           </nav>
-
-
         </div>
       </div>
     </div>

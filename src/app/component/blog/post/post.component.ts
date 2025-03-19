@@ -46,8 +46,6 @@ export class PostComponent implements OnInit {
         })
       )
 
-
-
       this.route.paramMap.subscribe(params => {
         const id = Number(params.get('id'));
         
@@ -77,8 +75,6 @@ export class PostComponent implements OnInit {
         }
       });
     }
-  
-
 
     onSubmit(): void {
       const post = {
@@ -95,6 +91,5 @@ export class PostComponent implements OnInit {
         this.router.navigate(['/blog/posts']);
       });
     }
-
 
 }

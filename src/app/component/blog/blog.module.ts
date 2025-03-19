@@ -11,5 +11,4 @@ import { TruncatePostPipe } from 'src/app/pipes/truncatepost.pipe';
   declarations: [ TruncatePostPipe, CreateComponent, PostsComponent, PostComponent ],
   imports: [ SharedModule, BlogRoutingModule, NavBarModule ]
 })
-export class BlogModule {} 
-   
+export class BlogModule {}    

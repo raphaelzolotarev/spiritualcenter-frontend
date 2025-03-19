@@ -27,8 +27,6 @@ export class UserdetailsComponent  implements OnInit {
         
         return this.userService.seeUserDetails$(userId).pipe(
           map(response => {
-            this.notificationService.onDefault(response.message);
-            console.log(response);
             this.dataSubject.next(response);
             return { dataState: DataState.LOADED, appData: response };
           }),

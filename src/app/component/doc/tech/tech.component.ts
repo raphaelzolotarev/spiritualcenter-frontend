@@ -29,7 +29,6 @@ export class TechComponent  implements OnInit {
         catchError((error: string) => {
           return of({ dataState: DataState.ERROR, appData: this.dataSubject.value, error })
         })
-      )
-      
+      )      
 }
 }
