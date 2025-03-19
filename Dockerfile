@@ -1,11 +1,14 @@
 FROM node:16.13.0-alpine AS build
 WORKDIR /app
-COPY package*.json ./
+COPY package.json package-lock.json ./
 RUN npm install
-RUN npx ngcc --properties es2023 browser module main --first-only --create-ivy-entry-points
 COPY . .
-RUN npm run build
-FROM nginx:stable
-COPY default.conf /etc/nginx/conf.d
-COPY --from=build /app/dist/spiritualcenterapp/ /usr/share/nginx/html
+RUN npm run build --configuration=production --project=spiritualcenterapp
+
+# 2️ Nginx
+FROM nginx:alpine
+WORKDIR /usr/share/nginx/html
+COPY --from=build /app/dist/frontend ./
+COPY default.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
