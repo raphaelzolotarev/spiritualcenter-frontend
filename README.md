@@ -1,27 +1,76 @@
-# Spiritualcenterapp
+# Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.0.
+### **www.spiritualcenter.be**
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Organization
+Efficient project management and team collaboration are facilitated using modern agile methodologies.
 
-## Code scaffolding
+## Agile Workflow
+- Agile principles ensure iterative development with continuous feedback.
+- Scrum framework implemented through JIRA, optimizing sprint planning and backlog management.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Data Modeling
+Structured data design for scalability and efficiency:
+- **Requirements List** – Defining business needs and expected functionalities.
+- **Conceptual Model** – High-level representation of entities and relationships.
+- **Logical Model** – Structuring the database schema with attributes and keys.
+- **Physical Model** – Optimizing storage and indexing for performance.
 
-## Build
+## Backend Technologies
+Building secure, scalable, and maintainable server-side applications using **Java & Spring Boot**:
+- **Spring Boot** – Rapid development framework.
+- **Spring Security** – Authentication and authorization mechanisms.
+- **JPA** – ORM framework for database interaction.
+- **Maven** – Dependency and build management.
+- **YAML Configuration** – Managing environment properties.
+- **MVC Architecture** – Structuring backend layers efficiently.
+- **DTO** – Optimizing data exchange between layers.
+- **Exception Handling** – Standardized error responses.
+- **Lombok** – Reducing boilerplate code.
+- **Concurrency Handling** – Managing multi-threaded operations.
+- **Auth0 Access Token & Refresh Token (JWT)** – Securing API endpoints.
+- **Java Mail & Twilio API** – Implementing email notifications and 2FA via SMS.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Database Management
+Ensuring data integrity and performance using:
+- **SQL, MySQL & MariaDB** – Database engine hosted on a dedicated server. Prevent SQL Injection attacks.
+- **Efficient indexing and query optimization** for improved performance.
 
-## Running unit tests
+## Frontend Development
+Creating dynamic and responsive interfaces with:
+- **Node.js** – Server-side scripting for frontend automation.
+- **Angular** – Scalable frontend architecture.
+- **Advanced Angular Concepts**: Pipes, Interceptors, Cache Memory, Lazy Loading, Detection Strategy, Notifications.
+- **TypeScript** – Strongly-typed JavaScript enhancing maintainability.
+- **HTML, CSS, Bootstrap** – Styling and layout frameworks.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Debugging & Testing
+Ensuring software quality through:
+- **JUnit** – Unit testing for backend validation.
+- **Postman** – API testing and automation.
 
-## Running end-to-end tests
+## Version Control & Collaboration
+Maintaining code integrity using **Git & GitHub**.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Development Tools
+Leveraging powerful IDEs and command-line tools:
+- **IntelliJ IDEA** – Java development.
+- **VS Code** – Frontend development.
+- **PowerShell** – Command-line automation.
 
-## Further help
+## Deployment & Hosting
+Deploying applications with high availability and security:
+- **Docker** – Containerization.
+- [![Watch the video](https://img.youtube.com/vi/lQNoWia0xj0/0.jpg)](https://www.youtube.com/watch?v=lQNoWia0xj0)
+- **GoDaddy** – Domain management.
+- **MariaDB** – Contabo Server. Management with Cpanel/WHM.
+- **AWS Services**:
+    - **EC2** – Cloud computing instances.
+    - **VPC** – Virtual Private Cloud.
+    - **Ubuntu** – OS for hosting services.
+    - **Caddy** – HTTPS Proxy.
+    - **Route 53** – Domain Name System.
+    - **Elastic IP** – Static IP for deployment.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
